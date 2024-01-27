@@ -1,0 +1,77 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.1'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'kr.co.strato'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+	//maven{url "http://127.0.0.1:8081/repository/maven-public/"}
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation 'org.springframework.boot:spring-boot-starter-quartz'
+
+	//Apache Commons
+	implementation 'org.apache.commons:commons-lang3:3.12.0'
+	implementation 'commons-codec:commons-codec:1.15'
+	implementation 'commons-io:commons-io:2.11.0'
+	implementation 'org.apache.httpcomponents:httpcore:4.4.15'
+	implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+	//Apache POI
+	implementation 'org.apache.poi:poi:5.2.3'
+	implementation 'org.apache.poi:poi-ooxml:5.2.3'
+	//JWT
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5', 'io.jsonwebtoken:jjwt-orgjson:0.11.5'
+
+	//springdoc  (springfox swagger는 spring boot 2.6 이상에서 문제가 있다. swagger사용은 이제 springfox 에서 springdoc 으로 대세가 넘어왔다)
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
+	//spring security 사용시에는 아래 종속성도 추가 해야 한다.
+	implementation 'org.springdoc:springdoc-openapi-security:1.6.9'
+
+	//Gson
+	implementation 'com.google.code.gson:gson:2.10'
+	//GitLab Client
+	implementation 'org.gitlab4j:gitlab4j-api:5.0.1'
+
+	//Json
+	implementation 'org.json:json:20220320'
+
+	//실루엣 api (local jar)
+	implementation files('libs/sil-api-0.0.9.jar')
+
+	//스케줄 lock
+	implementation 'net.javacrumbs.shedlock:shedlock-spring:4.42.0'
+	implementation 'net.javacrumbs.shedlock:shedlock-provider-jdbc-template:4.42.0'
+
+	compileOnly 'org.projectlombok:lombok'
+	//developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	runtimeOnly 'mysql:mysql-connector-java'
+
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

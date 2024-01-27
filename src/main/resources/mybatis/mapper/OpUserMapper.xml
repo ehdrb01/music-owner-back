@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.strato.wrp.mapper.OpUserMapper">
+    <select id="selectUser" resultType="OpUser">
+        /* selectUser */
+        SELECT
+           *
+        FROM
+            op_user
+        WHERE
+            user_id=#{userId}
+    </select>
+    <select id="selectStoreList" resultType="OpStore">
+        SELECT
+			*
+        FROM op_store
+        <!--WHERE user_type = "store"-->
+    </select>
+
+<select id="selectUserList" parameterType="kr.co.strato.wrp.web.dto.OpUserDto$OpUserListReq" resultType="OpUser">
+        SELECT
+			*
+        FROM op_user A
+        WHERE 1=1
+        <if test="userId != null and userId != 'null' and userId != '' ">
+        	AND A.user_id LIKE CONCAT('%',#{userId},'%')
+        </if>
+        <if test="name != null and name != 'null' and name != ''  ">
+        	AND A.name LIKE CONCAT('%',#{name},'%')
+        </if>
+        <if test="size != null">
+            limit #{size}
+        </if>
+        <if test="offset != null">
+            offset #{offset}
+        </if>
+    </select>
+
+<select id = "selectUserTotalCount"  parameterType="kr.co.strato.wrp.web.dto.OpUserDto$OpUserListReq" resultType="long">
+		SELECT count(*)
+			FROM op_user A
+        WHERE 1=1
+        <if test="userId != null and userId != 'null' and userId != '' ">
+        	AND A.user_id LIKE CONCAT('%',#{userId},'%')
+        </if>
+        <if test="name != null and name != 'null' and name != ''  ">
+        	AND A.name LIKE CONCAT('%',#{name},'%')
+        </if>
+	</select>
+
+
+    <select id="selectUsers" resultType="kr.co.strato.wrp.web.dto.OpUserDto$OpUserInfo" parameterType="List">
+        /* selectUsers */
+        SELECT
+            *
+        FROM wf_users
+        WHERE user_id IN
+            <foreach collection="list" item="item" separator=" , " open="(" close=")" >
+                #{item}
+            </foreach>
+    </select>
+
+
+
+
+    <insert id="insertUser" parameterType="OpUser" >
+		INSERT INTO op_user
+            (user_id, user_type, password, name, email, reg_date )
+        VALUES(#{userId}, #{userType}, #{password}, #{name}, #{email},NOW())
+        <!--INSERT INTO wf_users
+            (user_id, password, name, email, reset, role_code )
+        VALUES(#{userId}, #{password}, #{name}, #{email}, #{reset}, #{roleCode})-->
+    </insert>
+
+    <update id="updateUserPassword" parameterType="OpUserDto">
+        UPDATE op_user A
+        SET A.password = #{password}
+        WHERE A.user_id = #{userId}
+    </update>
+
+    <update id="updateUserPasswordReset" parameterType="OpUserDto">
+        UPDATE op_user A
+        SET A.password = #{password}
+        WHERE A.user_id = #{userId}
+    </update>
+
+	<update id="udpateUserInfo" parameterType="OpUserDto">
+		UPDATE op_user
+        SET mod_date = NOW()
+			<if test="name !=null">
+				,name = #{name}
+			</if>
+			<if test="email !=null">
+				,email = #{email}
+			</if>
+			<choose>
+				<when test="roleCode !=null and roleCode =='null'">
+				 	,role_code = NULL
+				</when>
+				<when test="roleCode !=null and roleCode !='null'">
+					,role_code = #{roleCode}
+				</when>
+			</choose>
+			<if test="pstCode !=null">
+				,pst_code = #{roleCode}
+			</if>
+			<if test="modId !=null">
+			,mod_id = #{modId}
+			</if>
+		WHERE
+			user_id = #{userId}
+	</update>
+
+</mapper>

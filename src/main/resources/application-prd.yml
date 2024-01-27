@@ -1,0 +1,30 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: wrp-core
+  datasource:
+    hikari:
+      jdbc-url: jdbc:mariadb://172.17.14.228:13306/dpsdb?allowMultiQueries=true
+      username: opr001
+      password: gmsh_Opr001
+      driver-class-name: org.mariadb.jdbc.Driver
+  mail:
+    host: 192.168.12.173
+    port: 25
+
+#실루엣 연동정보
+silhouette:
+  url: http://172.17.4.70:8095
+  key: Y2E5MDk4YTktOGE3Yy00MGIwLThjZDUtYTNhMWQ4ZTZlMGQ2
+
+#devops API 연동 정보
+devops:
+  url: http://devops-core
+  api:
+    token: 0b8ad259-658d-4b7c-a4b5-b42101db4239    
+
+#메신저 연동 정보
+messenger:
+  url: http://192.168.56.119:8008

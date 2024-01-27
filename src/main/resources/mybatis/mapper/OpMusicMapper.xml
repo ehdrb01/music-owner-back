@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.strato.wrp.mapper.OpMusicMapper">
+    <insert id="insertMusic" parameterType="OpMusic" >
+		INSERT INTO op_music
+			( req_store_no, req_song_nm, req_singer_nm, music_url, reg_date)
+        VALUES
+        (#{reqStoreNo},#{reqSongNm},#{reqSingerNm},#{musicUrl}, NOW())
+    </insert>
+     <select id="selectMusicList" resultType="OpMusic" parameterType="String">
+        /* selectMusicList */
+        SELECT
+           *
+        FROM
+            op_music
+        WHERE
+            req_store_no = #{reqStoreNo}
+        and played_yn = 'N'
+    </select>
+    <select id="selectMusic" resultType="OpMusic" parameterType="String">
+        /* selectMusic */
+        SELECT
+           *
+        FROM
+            op_music
+        WHERE
+            req_song_no  = #{reqSongNo}
+    </select>
+    <update id="udpateMusicInfo" parameterType="OpMusicDto">
+		  /* udpateMusicInfo */
+        UPDATE op_music
+      	 SET 
+        reg_date = NOW()
+		<if test="reqUserId != null">
+		,req_user_id = #{reqUserId}
+		</if>
+		<if test="reqStoreNo != null">
+		,req_store_no = #{reqStoreNo}
+		</if>
+		<if test="reqSongNm != null">
+		,req_song_nm = #{reqSongNm}
+		</if>
+		<if test="reqSingerNm != null">
+		,req_singer_nm = #{reqSingerNm}
+		</if>
+		<if test="musicUrl != null">
+		,music_url = #{musicUrl}
+		</if>
+		<if test="playedYn != null">
+		,played_yn = #{playedYn}
+		</if>
+		<if test="playingYn != null">
+		,playing_yn = #{playingYn}
+		</if>
+		WHERE 
+		 req_song_no = #{reqSongNo}
+	</update>
+	<update id="updateInitPlayingN"  parameterType="OpMusicDto">
+      /* udpateMusicInfo */
+        UPDATE op_music
+      	 SET 
+      		 playing_yn = 'N'
+  	   	 WHERE
+            req_store_no  = #{reqStoreNo}
+    </update>
+    <select id="selectLastPlayMusic"  resultType="Integer" parameterType="OpMusicDto">
+		/* selectLastPlayMusic */
+    	select req_song_no from op_music where  req_store_no  = #{reqStoreNo} and op_music.played_yn ='Y' order by reg_date desc limit 1
+    </select>
+    
+</mapper>

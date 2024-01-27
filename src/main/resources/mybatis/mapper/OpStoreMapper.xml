@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.strato.wrp.mapper.OpStoreMapper">
+    <select id="selectStoreList" resultType="OpStore">
+        /* selectStoreList */
+        SELECT
+           *
+        FROM
+            op_store
+    </select>
+    <select id="selectStore" resultType="OpStore" parameterType="String">
+        /* selectStore */
+        SELECT
+           *
+        FROM
+            op_store
+        WHERE
+            store_no = #{storeNo}
+    </select>
+     <select id="selectStoreNo" resultType="OpStore" parameterType="String">
+        /* selectStore */
+        SELECT
+           *
+        FROM
+            op_store
+        WHERE
+            store_id = #{userId}
+    </select>
+    
+    <update id="udpateStoreInfo" parameterType="OpStoreDto">
+        /* udpateStoreInfo */
+        UPDATE op_store
+      	 SET 
+        reg_date = NOW()
+			<if test="storeId != null">
+			,store_id = #{storeId}
+			</if>
+			<if test="storePassword != null">
+			,store_password = #{storePassword}
+			</if>
+			<if test="storeQrcodeAuth != null">
+			,store_qrcode_auth = #{storeQrcodeAuth}
+			</if>
+			<if test="storeQrcode != null">
+			,store_qrcode = #{storeQrcode}
+			</if>
+			<if test="storeNm != null">
+			,store_nm = #{storeNm}
+			</if>
+			<if test="storePhone != null">
+			,store_phone = #{storePhone}
+			</if>
+			<if test="storeAddr1 != null">
+			,store_addr1 = #{storeAddr1}
+			</if>
+			<if test="storeAddr2 != null">
+			,store_addr2 = #{storeAddr2}
+			</if>
+			<if test="storeOwnerNm != null">
+			,store_owner_nm = #{storeOwnerNm}
+			</if>
+        WHERE
+            store_no = #{storeNo}
+    
+    </update>
+    
+    <insert  id="insertStore" parameterType="OpStoreDto">
+		INSERT INTO op_store (
+ <if test="storePassword != null">
+ store_password,
+ </if>
+ <if test="storeId != null">
+ store_id,
+ </if>
+ <if test="storeQrcodeAuth != null">
+ store_qrcode_auth,
+ </if>
+ <if test="storeQrcode != null">
+ store_qrcode,
+ </if>
+ <if test="storeNm != null">
+ store_nm,
+ </if>
+ <if test="storePhone != null">
+ store_phone,
+ </if>
+ <if test="storeAddr1 != null">
+ store_addr1,
+ </if>
+ <if test="storeAddr2 != null">
+ store_addr2,
+ </if>
+ <if test="storeOwnerNm != null">
+ store_owner_nm,
+ </if>
+ reg_date
+ )
+VALUES
+		(
+
+		 <if test="storePassword != null">
+		 #{storePassword},
+		 </if>
+		  <if test="storeId != null">
+		 #{storeId},
+		 </if>
+		 <if test="storeQrcodeAuth != null">
+		 #{storeQrcodeAuth},
+		 </if>
+		 <if test="storeQrcode != null">
+		 #{storeQrcode},
+		 </if>
+		 <if test="storeNm != null">
+		 #{storeNm},
+		 </if>
+		 <if test="storePhone != null">
+		 #{storePhone},
+		 </if>
+		 <if test="storeAddr1 != null">
+		 #{storeAddr1},
+		 </if>
+		 <if test="storeAddr2 != null">
+		 #{storeAddr2},
+		 </if>
+		 <if test="storeOwnerNm != null">
+		 #{storeOwnerNm},
+		 </if>
+		 NOW()
+	)
+    </insert>
+    
+</mapper>

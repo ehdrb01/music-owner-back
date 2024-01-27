@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration  scan="true" scanPeriod="60 seconds">
+	
+	<property name="logDir" value="/logs/wrp"/> 
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<Pattern>%d{HH:mm:ss.SSS} [%thread] %highlight(%-5level) %cyan(%logger{36}) - %msg%n</Pattern>     
+		</encoder>
+	</appender>	
+ 	
+ 	<!-- <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender"> 	 	
+    	<file>${logDir}/logback.log</file>
+   	 	  
+	  	<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+	    	<fileNamePattern>${logDir}/logback.%d{yyyy-MM-dd}.log</fileNamePattern>
+	    	<maxHistory>30</maxHistory>	          
+	  	</rollingPolicy>
+	  	<encoder>
+	    	<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+		</encoder>	
+ 	</appender> -->
+ 	
+ 	<logger name="org.springframework" level="INFO"/>
+	<logger name="kr.co.strato" level="debug"/>  	
+	
+	<!-- sql log (mybatis mapper namespace)-->
+    <logger name="kr.co.strato.wrp.mapper" level="debug"/>
+  
+  	<!-- turn OFF all logging (children can override) -->
+  	<root level="INFO">
+    	<appender-ref ref="CONSOLE" />
+   <!--  	<appender-ref ref="FILE" /> -->
+  	</root>
+  	
+</configuration>
